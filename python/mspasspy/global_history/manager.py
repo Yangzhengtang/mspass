@@ -11,6 +11,41 @@ from datetime import datetime
 from dill.source import getsource
 
 import mspasspy.algorithms.signals as signals
+from mspasspy.util.converter import (Metadata2dict, AntelopePf2dict)
+from mspasspy.ccore.utility import (AntelopePf, Metadata)
+
+
+def capture_paras(*args, **kwargs):
+    parameters_dict = collections.OrderedDict()
+
+    #   Non-keyworded args
+    i = 0
+    for value in args:
+        key = "Arg{index:d}".format(index = i)
+        if(isinstance(value, AntelopePf)):
+            parameters_dict[key] = AntelopePf2dict(value)
+        elif(isinstance(value, Metadata)):
+            parameters_dict[key] = Metadata2dict(value)
+        else:
+            parameters_dict[key] = value
+        i += 1
+
+    #   Keyworded args
+    for key, value in kwargs.items():
+        if(isinstance(value, AntelopePf)):
+            parameters_dict[key] = AntelopePf2dict(value)
+        elif(isinstance(value, Metadata)):
+            parameters_dict[key] = Metadata2dict(value)
+        else:
+            parameters_dict[key] = value
+    
+    return parameters_dict
+
+
+def dump_paras_to_json(*args, **kwargs):
+    parameters_dict = capture_paras(*args, **kwargs)
+    json_object = json.dumps(parameters_dict, indent=4)
+    return json_object
 
 
 def mspass_spark_map(self, func, *args, global_history=None, object_history=False, alg_id=None,
