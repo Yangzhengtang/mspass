@@ -73,7 +73,7 @@ def AntelopePf2dict(pf):
         data[key] = val
     for key in arr_keys:
         pf_branch = pf.get_branch(key)
-        branch_dict = pf_to_dict(pf_branch)
+        branch_dict = AntelopePf2dict(pf_branch)
         data[key] = branch_dict
     return data
 
