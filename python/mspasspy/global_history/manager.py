@@ -6,14 +6,13 @@ import collections
 import dask.bag as daskbag
 
 from bson.objectid import ObjectId
-from mspasspy.ccore.utility import MsPASSError
+from mspasspy.ccore.utility import (MsPASSError,AntelopePf, Metadata)
 from datetime import datetime
 from dill.source import getsource
 
 import mspasspy.algorithms.signals as signals
 from mspasspy.util.converter import (Metadata2dict, AntelopePf2dict)
-from mspasspy.ccore.utility import (AntelopePf, Metadata)
-
+import json
 
 def capture_paras(*args, **kwargs):
     parameters_dict = collections.OrderedDict()
